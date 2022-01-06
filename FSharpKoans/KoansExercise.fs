@@ -25,116 +25,6 @@ open FSharpKoans.Core
 [<Koan(Sort = 1)>]
 module KoansExercise =
 
-    [<Koan>]
-    let CreatingListsWithComprehensions() =
-        let list = [for i in 0..4 do yield i ]
-
-        AssertEquality list __
-
-    [<Koan>]
-    let ComprehensionsWithConditions() =
-        let list = [for i in 0..10 do
-                        if i % 2 = 0 then yield i ]
-
-        AssertEquality list __
-
-    [<Koan>]
-    let TransformingListsWithMap() =
-        let square x =
-            x * x
-
-        let original = [0..5]
-        let result = List.map square original
-
-        AssertEquality original __
-        AssertEquality result __
-
-    [<Koan>]
-    let FilteringListsWithFilter() =
-        let isEven x =
-            x % 2 = 0
-
-        let original = [0..5]
-        let result = List.filter isEven original
-
-        AssertEquality original __
-        AssertEquality result __
-
-    [<Koan>]
-    let DividingListsWithPartition() =
-        let isOdd x =
-            x % 2 <> 0
-
-        let original = [0..5]
-        let result1, result2 = List.partition isOdd original
-
-        AssertEquality result1 __
-        AssertEquality result2 __
-
-    [<Koan>]
-    let CreatingArrays() =
-        let fruits = [| "apple"; "pear"; "peach"|]
-
-        AssertEquality fruits.[0] __
-        AssertEquality fruits.[1] __
-        AssertEquality fruits.[2] __
-
-    [<Koan>]
-    let ArraysAreMutable() =
-        let fruits = [| "apple"; "pear" |]
-        fruits.[1] <- "peach"
-
-        AssertEquality fruits __
-
-    [<Koan>]
-    let YouCanCreateArraysWithComprehensions() =
-        let numbers =
-            [| for i in 0..10 do
-                   if i % 2 = 0 then yield i |]
-
-        AssertEquality numbers __
-
-    [<Koan>]
-    let ThereAreAlsoSomeOperationsYouCanPerformOnArrays() =
-        let cube x =
-            x * x * x
-
-        let original = [| 0..5 |]
-        let result = Array.map cube original
-
-        AssertEquality original __
-        AssertEquality result __
-
-    [<Koan>]
-    let SkippingElements() =
-        let original = [0..5]
-        let result = Seq.skip 2 original
-
-        AssertEquality result __
-
-    [<Koan>]
-    let FindingTheMax() =
-        let values = new ResizeArray<int>()
-
-        values.Add(11)
-        values.Add(20)
-        values.Add(4)
-        values.Add(2)
-        values.Add(3)
-
-        let result = Seq.max values
-
-        AssertEquality result __
-
-    [<Koan>]
-    let FindingTheMaxUsingACondition() =
-        let getNameLength (name:string) =
-            name.Length
-
-        let names = [| "Harry"; "Lloyd"; "Nicholas"; "Mary"; "Joe"; |]
-        let result = Seq.maxBy getNameLength names
-
-        AssertEquality result __
 
     [<Koan>]
     let MaxMinSum() =
@@ -143,7 +33,13 @@ module KoansExercise =
         // values as a single line of two space-separated long integers.
 
         let calculateMaxMin centimes =
-            __
+            let sort = Seq.sort centimes
+            let skip = Seq.skip 1 sort
+            let reverse = Seq.rev sort
+            let revSkip = Seq.skip 1 reverse
+            let summing = Seq.sum skip
+            let revSum = Seq.sum revSkip
+            revSum, summing
 
         AssertEquality (16, 24) (calculateMaxMin [1;3;5;7;9])
         AssertEquality (10, 14) (calculateMaxMin [1;2;3;4;5])
@@ -157,7 +53,14 @@ module KoansExercise =
         // of an F# list.
 
         let fizzBuzzList n =
-            __
+            let fizzy num = 
+                match num%3, num%5 with 
+                    | 0,0 -> "FizzBuzz"
+                    |0,_ -> "Fizz"
+                    |_,0 -> "Buzz"
+                    |_,_ -> num.ToString()
+            [1..n]
+                |> List.map fizzy
 
         let result = ["1"; "2"; "Fizz"; "4"; "Buzz"; "Fizz"; "7"; "8"; "Fizz"; "Buzz"; "11"; "Fizz"; "13"; "14"; "FizzBuzz"; "16"; "17"; "Fizz"; "19"; "Buzz"]
 
@@ -178,7 +81,19 @@ module KoansExercise =
         // Write a program that prints a staircase of size n.
 
         let makeStairCase n =
-            __
+            let listOfstring =
+                [for x in 1..n do
+                    let row=
+                        [for y in 1..n do
+                            if y>x then
+                                yield " "
+                            else
+                                yield "#"
+                        ]
+                        |> List.rev
+                    yield String.concat "" row
+                ]
+            String.concat nl listOfstring
 
         let stairCase1 =  "#"
         let stairCase2 =
