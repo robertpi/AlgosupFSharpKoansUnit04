@@ -25,117 +25,6 @@ open FSharpKoans.Core
 [<Koan(Sort = 1)>]
 module KoansExercise =
 
-    [<Koan>]
-    let CreatingListsWithComprehensions() =
-        let list = [for i in 0..4 do yield i ]
-
-        AssertEquality list __
-
-    [<Koan>]
-    let ComprehensionsWithConditions() =
-        let list = [for i in 0..10 do
-                        if i % 2 = 0 then yield i ]
-
-        AssertEquality list __
-
-    [<Koan>]
-    let TransformingListsWithMap() =
-        let square x =
-            x * x
-
-        let original = [0..5]
-        let result = List.map square original
-
-        AssertEquality original __
-        AssertEquality result __
-
-    [<Koan>]
-    let FilteringListsWithFilter() =
-        let isEven x =
-            x % 2 = 0
-
-        let original = [0..5]
-        let result = List.filter isEven original
-
-        AssertEquality original __
-        AssertEquality result __
-
-    [<Koan>]
-    let DividingListsWithPartition() =
-        let isOdd x =
-            x % 2 <> 0
-
-        let original = [0..5]
-        let result1, result2 = List.partition isOdd original
-
-        AssertEquality result1 __
-        AssertEquality result2 __
-
-    [<Koan>]
-    let CreatingArrays() =
-        let fruits = [| "apple"; "pear"; "peach"|]
-
-        AssertEquality fruits.[0] __
-        AssertEquality fruits.[1] __
-        AssertEquality fruits.[2] __
-
-    [<Koan>]
-    let ArraysAreMutable() =
-        let fruits = [| "apple"; "pear" |]
-        fruits.[1] <- "peach"
-
-        AssertEquality fruits __
-
-    [<Koan>]
-    let YouCanCreateArraysWithComprehensions() =
-        let numbers =
-            [| for i in 0..10 do
-                   if i % 2 = 0 then yield i |]
-
-        AssertEquality numbers __
-
-    [<Koan>]
-    let ThereAreAlsoSomeOperationsYouCanPerformOnArrays() =
-        let cube x =
-            x * x * x
-
-        let original = [| 0..5 |]
-        let result = Array.map cube original
-
-        AssertEquality original __
-        AssertEquality result __
-
-    [<Koan>]
-    let SkippingElements() =
-        let original = [0..5]
-        let result = Seq.skip 2 original
-
-        AssertEquality result __
-
-    [<Koan>]
-    let FindingTheMax() =
-        let values = new ResizeArray<int>()
-
-        values.Add(11)
-        values.Add(20)
-        values.Add(4)
-        values.Add(2)
-        values.Add(3)
-
-        let result = Seq.max values
-
-        AssertEquality result __
-
-    [<Koan>]
-    let FindingTheMaxUsingACondition() =
-        let getNameLength (name:string) =
-            name.Length
-
-        let names = [| "Harry"; "Lloyd"; "Nicholas"; "Mary"; "Joe"; |]
-        let result = Seq.maxBy getNameLength names
-
-        AssertEquality result __
-
     let nl = System.Environment.NewLine
 
     [<Koan>]
@@ -151,18 +40,28 @@ module KoansExercise =
         // Write a program that prints a staircase of size n.
 
         let makeStairCase n =
-            __
+            let listOfStrings =
+                [ for x in 1 .. n do
+                    let row =
+                        [ for y in 1 .. n do
+                            if y > x then
+                                yield " "
+                            else
+                                yield "#" ]
+                        |> List.rev
+                    yield String.concat "" row ]
+            String.concat nl listOfStrings
 
         let stairCase1 =  "#"
         let stairCase2 =
             " #" + nl +
-            "##" + nl
+            "##"
         let stairCase5 =
             "    #" + nl +
             "   ##" + nl +
             "  ###" + nl +
             " ####" + nl +
-            "#####" + nl
+            "#####"
         let stairCase7 =
             "      #" + nl +
             "     ##" + nl +
@@ -170,7 +69,7 @@ module KoansExercise =
             "   ####" + nl +
             "  #####" + nl +
             " ######" + nl +
-            "#######" + nl
+            "#######"
 
 
         AssertEquality stairCase1 (makeStairCase 1)
@@ -178,6 +77,7 @@ module KoansExercise =
         AssertEquality stairCase5 (makeStairCase 5)
         AssertEquality stairCase7 (makeStairCase 7)
 
+    [<Koan>]
     let TwelveHourClockConversion() =
         // Given a time in 12-hour AM/PM format, convert it to military (24-hour) time.
 
@@ -187,7 +87,23 @@ module KoansExercise =
         // Don't use .NET's time APIs (it will probably be easier not to)
 
         let convertTime time =
-            __
+            let str = string time
+            if(str.Contains("PM"))then
+                let s = 
+                    if(str.[0] = '1' && str.[1] = '2')then
+                        str
+                    else
+                        string (12 + ((int str.[0] - 48)*10) + (int str.[1] - 48)) + str.Remove(0,2) 
+                    
+                s.Remove(str.IndexOf("PM"))
+            else
+                 if(str.[0] = '1' && str.[1] = '2')then
+                        let s = "00" + str.Remove(0,2) 
+                        s.Remove(str.IndexOf("AM"))
+                 else
+                        str.Remove(str.IndexOf("AM"))
+                    
+            
 
         AssertEquality "10:55:01" (convertTime "10:55:01AM")
         AssertEquality "19:05:45" (convertTime "07:05:45PM")
@@ -205,7 +121,13 @@ module KoansExercise =
         // of an F# list.
 
         let fizzBuzzList n =
-            __
+            [for x in 1..n do
+                match x with
+                | x when x%3=0 && x%5=0 -> yield "Fizzbuzz"
+                | x when x%3=0  -> yield "Fizz"
+                | x when x%5=0 -> yield "Buzz"
+                | _ -> yield string x
+            ]
 
         let result = ["1"; "2"; "Fizz"; "4"; "Buzz"; "Fizz"; "7"; "8"; "Fizz"; "Buzz"; "11"; "Fizz"; "13"; "14"; "Fizzbuzz"; "16"; "17"; "Fizz"; "19"; "Buzz"]
 
