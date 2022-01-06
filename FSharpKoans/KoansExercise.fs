@@ -136,6 +136,33 @@ module KoansExercise =
 
         AssertEquality result __
 
+    [<Koan>]
+    let MaxMinSum() =
+        // Given five positive integers, find the minimum and maximum values that can be calculated by
+        // summing exactly four of the five integers. Then print the respective minimum and maximum
+        // values as a single line of two space-separated long integers.
+
+        let calculateMaxMin centimes =
+            __
+
+        AssertEquality (16, 24) (calculateMaxMin [1;3;5;7;9])
+        AssertEquality (10, 14) (calculateMaxMin [1;2;3;4;5])
+
+    [<Koan>]
+    let FizzBuzzCodingTest() =
+        // The FizzBuzz problem is a classic test given in coding interviews. The task
+        // is simple: Print integers 1 to N, but print “Fizz” if an integer is divisible
+        // by 3, “Buzz” if an integer is divisible by 5, and “FizzBuzz” if an integer
+        // is divisible by both 3 and 5. In this case the results should be in the form
+        // of an F# list.
+
+        let fizzBuzzList n =
+            __
+
+        let result = ["1"; "2"; "Fizz"; "4"; "Buzz"; "Fizz"; "7"; "8"; "Fizz"; "Buzz"; "11"; "Fizz"; "13"; "14"; "FizzBuzz"; "16"; "17"; "Fizz"; "19"; "Buzz"]
+
+        AssertEquality result (fizzBuzzList 20)
+
     let nl = System.Environment.NewLine
 
     [<Koan>]
@@ -156,13 +183,13 @@ module KoansExercise =
         let stairCase1 =  "#"
         let stairCase2 =
             " #" + nl +
-            "##" + nl
+            "##"
         let stairCase5 =
             "    #" + nl +
             "   ##" + nl +
             "  ###" + nl +
             " ####" + nl +
-            "#####" + nl
+            "#####"
         let stairCase7 =
             "      #" + nl +
             "     ##" + nl +
@@ -170,14 +197,14 @@ module KoansExercise =
             "   ####" + nl +
             "  #####" + nl +
             " ######" + nl +
-            "#######" + nl
-
+            "#######"
 
         AssertEquality stairCase1 (makeStairCase 1)
         AssertEquality stairCase2 (makeStairCase 2)
         AssertEquality stairCase5 (makeStairCase 5)
         AssertEquality stairCase7 (makeStairCase 7)
 
+    [<Koan>]
     let TwelveHourClockConversion() =
         // Given a time in 12-hour AM/PM format, convert it to military (24-hour) time.
 
@@ -193,36 +220,6 @@ module KoansExercise =
         AssertEquality "19:05:45" (convertTime "07:05:45PM")
         AssertEquality "12:01:32" (convertTime "12:01:32PM")
         AssertEquality "00:46:52" (convertTime "12:46:52AM")
-
-
-
-    [<Koan>]
-    let FizzBuzzCodingTest() =
-        // The FizzBuzz problem is a classic test given in coding interviews. The task
-        // is simple: Print integers 1 to N, but print “Fizz” if an integer is divisible
-        // by 3, “Buzz” if an integer is divisible by 5, and “FizzBuzz” if an integer
-        // is divisible by both 3 and 5. In this case the results should be in the form
-        // of an F# list.
-
-        let fizzBuzzList n =
-            __
-
-        let result = ["1"; "2"; "Fizz"; "4"; "Buzz"; "Fizz"; "7"; "8"; "Fizz"; "Buzz"; "11"; "Fizz"; "13"; "14"; "Fizzbuzz"; "16"; "17"; "Fizz"; "19"; "Buzz"]
-
-        AssertEquality result (fizzBuzzList 20)
-
-    [<Koan>]
-    let MaxMinSum() =
-        // Given five positive integers, find the minimum and maximum values that can be calculated by
-        // summing exactly four of the five integers. Then print the respective minimum and maximum
-        // values as a single line of two space-separated long integers.
-
-        let calculateMaxMin centimes =
-            __
-
-        AssertEquality (16, 24) (calculateMaxMin [1;3;5;7;9])
-        AssertEquality (10, 14) (calculateMaxMin [1;2;4;5])
-
 
     type Coins =
         | Cents50
